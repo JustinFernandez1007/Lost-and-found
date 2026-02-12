@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}My Site{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <a href="/">Home</a>
+    <a href="/report">Report</a>
+    <a href="/browse">Browse</a>
+    <a href="/doc">Docs</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="brand">MySite</div>
+
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        {% if "user" not in session %}
+          <a href="/admin" class="btn secondary">Admin Sign In</a>
+        {% else %}
+          <a href="/admin/panel" class="btn secondary">Admin Panel</a>
+          <a href="/logout" class="btn danger">Logout</a>
+        {% endif %}
+
+        <div class="nav-dropdown">
+          <button class="dropbtn">Pages</button>
+          <div class="nav-dropdown-content">
+            <a href="/">Home</a>
+            <a href="/report">Report</a>
+            <a href="/browse">Browse</a>
+            <a href="/doc">Docs</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    © MySite. All rights reserved.
+  </footer>
+
+</body>
+</html>

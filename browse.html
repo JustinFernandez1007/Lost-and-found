@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Browse Items</h2>
+
+<!-- Filters -->
+<form method="get" class="filters">
+  <input name="q" placeholder="Search by name" value="{{ request.args.get('q','') }}">
+  <select name="category">
+    <option value="">All Categories</option>
+    <option {% if request.args.get('category')=='Electronics' %}selected{% endif %}>Electronics</option>
+    <option {% if request.args.get('category')=='Clothing' %}selected{% endif %}>Clothing</option>
+    <option {% if request.args.get('category')=='Books' %}selected{% endif %}>Books</option>
+    <option {% if request.args.get('category')=='Accessories' %}selected{% endif %}>Accessories</option>
+    <option {% if request.args.get('category')=='Other' %}selected{% endif %}>Other</option>
+  </select>
+
+  <!-- Status filter only for staff/admin -->
+  {% if session.get('role') in ['staff','admin'] %}
+  <select name="status">
+    <option value="">All Statuses</option>
+    <option {% if request.args.get('status')=='approved' %}selected{% endif %}>Approved</option>
+    <option {% if request.args.get('status')=='claimed' %}selected{% endif %}>Claimed</option>
+    <option {% if request.args.get('status')=='archived' %}selected{% endif %}>Archived</option>
+  </select>
+  {% endif %}
+
+  <button class="btn" type="submit">Apply</button>
+</form>
+
+<!-- Items Grid -->
+<div class="grid">
+  {% for i in items %}
+  <div class="card">
+    {% if i['photo'] %}
+      <img src="/static/uploads/{{ i['photo'] }}" alt="{{ i['name'] }}">
+    {% endif %}
+    <div class="card-body">
+      <h3>{{ i['name'] }}</h3>
+      <p class="muted">{{ i['category'] }} • {{ i['location'] }}</p>
+      <p>{{ i['description'] }}</p>
+
+      <!-- Friendly status badge -->
+      <span class="badge {{i['status']}}">
+        {% if i['status']=='approved' %}Available
+        {% elif i['status']=='claimed' %}Claimed
+        {% elif i['status']=='archived' %}Archived
+        {% else %}Pending{% endif %}
+      </span>
+
+      <!-- Claim button only for available items -->
+      {% if i['status']=='approved' %}
+        <a class="btn small" href="/claim/{{i['id']}}">Claim</a>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

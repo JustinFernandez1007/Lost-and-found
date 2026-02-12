@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Claim Item: {{ item['name'] }}</h2>
+
+{% if item['photo'] %}
+<img src="{{ url_for('static', filename='uploads/' + item['photo']) }}" alt="{{ item['name'] }}" style="max-width:300px;">
+{% endif %}
+
+<p>{{ item['description'] }}</p>
+<p class="muted">Location: {{ item['location'] }}</p>
+
+<form method="POST" class="form">
+  <input type="text" name="student" placeholder="Your Name" required>
+  <input type="email" name="email" placeholder="Your Email" required>
+  <textarea name="message" placeholder="Optional message"></textarea>
+  <button class="btn" type="submit">Submit Claim</button>
+</form>
+{% endblock %}

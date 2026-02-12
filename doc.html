@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Documentation</h2>
+<p>This page provides instructions and records for the School Lost & Found system.</p>
+
+
+<h3>How to Use</h3>
+<ul>
+<li>Report found items using the <strong>Report</strong> page.</li>
+<li>Browse items using the <strong>Browse</strong> page.</li>
+<li>Claim items by clicking <strong>Claim</strong> on an approved item.</li>
+<li>Admins can approve, mark claimed, archive items, and manage claims in the <strong>Admin Panel</strong>.</li>
+</ul>
+
+
+<h3>Roles</h3>
+<ul>
+<li>Viewer: Can browse approved items.</li>
+<li>Staff: Can report items and browse.</li>
+<li>Admin: Full permissions to approve, claim, archive, and manage claims.</li>
+</ul>
+
+
+<h3>Printable Records</h3>
+<p>You can use your browser's print function (Ctrl+P or Cmd+P) to print this documentation page for physical records.</p>
+
+
+<h3>Technical Notes</h3>
+<ul>
+<li>Backend: Flask with SQLite database.</li>
+<li>Static files: CSS in <code>static/style.css</code>, images in <code>static/uploads/</code>.</li>
+<li>Templates: Jinja2 in <code>templates/</code> folder.</li>
+<li>Roles and permissions are enforced in <code>app.py</code>.</li>
+</ul>
+{% endblock %}

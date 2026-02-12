@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Admin Panel{% endblock %}
+{% block body_class %}admin{% endblock %}
+{% block footer_class %}browse-footer{% endblock %}
+
+{% block content %}
+<h2>Admin Panel</h2>
+<h3>Items</h3>
+<div class="grid">
+  {% for item in items %}
+    <div class="card">
+      <div class="card-body">
+        <h4>{{ item['name'] }}</h4>
+        <p>{{ item['description'] }}</p>
+        <span class="badge {% if item['status']=='approved' %}approved{% elif item['status']=='claimed' %}claimed{% elif item['status']=='archived' %}archived{% else %}pending{% endif %}">{{ item['status'].capitalize() }}</span>
+        <div class="actions">
+          <a href="/admin/approve/{{ item['id'] }}" class="btn small">Approve</a>
+          <a href="/admin/status/{{ item['id'] }}/claimed" class="btn small">Claimed</a>
+          <a href="/admin/status/{{ item['id'] }}/archived" class="btn small secondary">Archive</a>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<h3>Claims</h3>
+<div class="grid">
+  {% for claim in claims %}
+    <div class="card">
+      <div class="card-body">
+        <h4>{{ claim['student_name'] }} - {{ claim['email'] }}</h4>
+        <p>{{ claim['message'] }}</p>
+        <span class="badge {% if claim['status']=='resolved' %}approved{% elif claim['status']=='rejected' %}archived{% else %}pending{% endif %}">{{ claim['status'].capitalize() }}</span>
+        <div class="actions">
+          <a href="/admin/claim/{{ claim['id'] }}/resolved" class="btn small">Resolve</a>
+          <a href="/admin/claim/{{ claim['id'] }}/rejected" class="btn small secondary">Reject</a>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}
